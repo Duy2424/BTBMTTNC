@@ -1,10 +1,8 @@
-def tinh_tong_so_chan(lst):
-    tong = 0
-    for num in lst:
-        if num % 2 == 0:
-            tong += num
-    return tong
-
-input_list = input("nhap ds cac so: ")
-numbers = list(map(int, input_list.split(',')))
-print("tong so chan:", tinh_tong_so_chan(numbers))
+# Cau 01: Tinh tong cac so chan trong mot List
+danh_sach = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+tong = 0
+for so in danh_sach:
+    if so % 2 == 0:
+        tong += so
+print(f"Danh sach: {danh_sach}")
+print(f"Tong cac so chan trong List la: {tong}")

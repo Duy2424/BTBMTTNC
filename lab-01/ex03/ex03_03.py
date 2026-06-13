@@ -1,8 +1,6 @@
-def tao_tuple_tu_list(lst):
-    return tuple(lst)
-
-input_list = input("nhap danh sach cac so: ")
-numbers = list(map(int, input_list.split(',')))
-my_tuple = tao_tuple_tu_list(numbers)
-print("List: ", numbers)
-print("Tuple tu List: ", my_tuple)
+# Cau 03: Tao Tuple tu mot List nhap vao tu ban phim
+chuoi_nhap = input("Nhap cac phan tu cua List, cach nhau boi dau phay: ")
+danh_sach = chuoi_nhap.split(",")
+tup = tuple(danh_sach)
+print(f"List: {danh_sach}")
+print(f"Tuple: {tup}")

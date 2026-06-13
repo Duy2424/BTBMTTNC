@@ -1,14 +1,9 @@
-def xoa_phan_tu(dictionary, key):
-    if key in dictionary:
-        del dictionary[key]
-        return True
-    else:
-        return False
-
-my_dict = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
-key_to_delete = 'b'
-result = xoa_phan_tu(my_dict, key_to_delete)
-if result:
-    print("phan tu da xoa tu dictionary:", my_dict)
+# Cau 06: Xoa mot phan tu tu Dictionary theo key da cho
+sinh_vien = {"ten": "Nguyen Van A", "tuoi": 20, "nganh": "CNTT"}
+print(f"Dictionary ban dau: {sinh_vien}")
+key = input("Nhap key can xoa: ")
+if key in sinh_vien:
+    del sinh_vien[key]
+    print(f"Dictionary sau khi xoa: {sinh_vien}")
 else:
-    print("ko tim thay phan tu can xoa trong dictionary.")
+    print(f"Khong tim thay key '{key}' trong Dictionary")

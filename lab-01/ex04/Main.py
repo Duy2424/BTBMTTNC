@@ -1,82 +1,40 @@
 from QuanLySinhVien import QuanLySinhVien
 
-qlsv = QuanLySinhVien()
-while (1 == 1):
-    print("\nCHUONG TRINH QUAN LY SINH VIEN")
-    print("*" * 55 + "MENU" + "*" * 55)
-    print("***  1. Them sinh vien.")
-    print("***  2. Cap nhat thong tin sinh vien boi ID.")
-    print("***  3. Xoa sinh vien boi ID.")
-    print("***  4. Tim kiem sinh vien theo ten.")
-    print("***  5. Sap xep sinh vien theo diem trung binh.")
-    print("***  6. Sap xep sinh vien theo ten chuyen nganh.")
-    print("***  7. Hien thi danh sach sinh vien.")
-    print("***  0. Thoat")
-    print("*" * 114)
 
-    key = int(input("Nhap tuy chon: "))
-    if (key == 1):
-        print("\n1. Them sinh vien.")
-        qlsv.nhapSinhVien()
-        print("\nThem sinh vien thanh cong!")
+def hien_thi_menu():
+    print("\n========== QUAN LY SINH VIEN ==========")
+    print("1. Them sinh vien")
+    print("2. Cap nhat thong tin sinh vien theo ID")
+    print("3. Xoa sinh vien theo ID")
+    print("4. Tim kiem sinh vien theo ten")
+    print("5. Sap xep danh sach sinh vien theo diem trung binh")
+    print("6. Sap xep danh sach sinh vien theo ten chuyen nganh")
+    print("7. Hien thi danh sach sinh vien")
+    print("0. Thoat")
+    print("========================================")
 
-    elif (key == 2):
-        if (qlsv.soLuongSinhVien() > 0):
-            print("\n2. Cap nhat thong tin sinh vien.")
-            print("\nNhap ID: ")
-            ID = int(input())
-            qlsv.updateSinhVien(ID)
+
+if __name__ == "__main__":
+    quan_ly = QuanLySinhVien()
+    while True:
+        hien_thi_menu()
+        lua_chon = input("Nhap lua chon cua ban: ")
+        if lua_chon == "1":
+            quan_ly.them_sinh_vien()
+        elif lua_chon == "2":
+            quan_ly.cap_nhat_sinh_vien()
+        elif lua_chon == "3":
+            quan_ly.xoa_sinh_vien()
+        elif lua_chon == "4":
+            quan_ly.tim_kiem_theo_ten()
+        elif lua_chon == "5":
+            quan_ly.sap_xep_theo_diem_tb()
+        elif lua_chon == "6":
+            quan_ly.sap_xep_theo_nganh()
+        elif lua_chon == "7":
+            quan_ly.hien_thi_danh_sach()
+        elif lua_chon == "0":
+            print("Tam biet!")
+            break
         else:
-            print("\nSanh sach sinh vien trong!")
-
-    elif (key == 3):
-        if (qlsv.soLuongSinhVien() > 0):
-            print("\n3. Xoa sinh vien.")
-            print("\nNhap ID: ")
-            ID = int(input())
-            if (qlsv.deleteById(ID)):
-                print("\nSinh vien co id = ", ID, " da bi xoa.")
-            else:
-                print("\nSinh vien co id = ", ID, " khong ton tai.")
-        else:
-            print("\nSanh sach sinh vien trong!")
-
-    elif (key == 4):
-        if (qlsv.soLuongSinhVien() > 0):
-            print("\n4. Tim kiem sinh vien theo ten.")
-            print("\nNhap ten de tim kiem: ")
-            name = input()
-            searchResult = qlsv.findByName(name)
-            qlsv.showSinhVien(searchResult)
-        else:
-            print("\nSanh sach sinh vien trong!")
-
-    elif (key == 5):
-        if (qlsv.soLuongSinhVien() > 0):
-            print("\n5. Sap xep sinh vien theo diem trung binh (GPA).")
-            qlsv.sortByDiemTB()
-            qlsv.showSinhVien(qlsv.getListSinhVien())
-        else:
-            print("\nSanh sach sinh vien trong!")
-
-    elif (key == 6):
-        if (qlsv.soLuongSinhVien() > 0):
-            print("\n6. Sap xep sinh vien theo ten chuyen nganh.")
-            qlsv.sortByName()
-            qlsv.showSinhVien(qlsv.getListSinhVien())
-        else:
-            print("\nSanh sach sinh vien trong!")
-
-    elif (key == 7):
-        if (qlsv.soLuongSinhVien() > 0):
-            print("\n7. Hien thi danh sach sinh vien.")
-            qlsv.showSinhVien(qlsv.getListSinhVien())
-        else:
-            print("\nSanh sach sinh vien trong!")
-
-    elif (key == 0):
-        print("\nBan da chon thoat chuong trinh!")
-        break
-
-    else:
-        print("\nHay chon chuc nang trong hop menu.")
+            print("Lua chon khong hop le, vui long nhap lai!")

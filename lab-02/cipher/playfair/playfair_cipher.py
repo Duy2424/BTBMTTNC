@@ -31,16 +31,23 @@ class PlayFairCipher:
         encrypted_text = ""
         for i in range(0, len(plain_text), 2):
             pair = plain_text[i:i + 2]
-            if len(pair) == 1:  # Xu ly neu so luong ky tu le
+            if len(pair) == 1:
+                # Them "X" neu cap chi co mot ky tu
                 pair += "X"
+            elif pair[0] == pair[1]:
+                # Thay ky tu thu hai bang "X" neu hai ky tu giong nhau
+                pair = pair[0] + "X"
             row1, col1 = self.find_letter_coords(matrix, pair[0])
             row2, col2 = self.find_letter_coords(matrix, pair[1])
             if row1 == row2:
-                encrypted_text += matrix[row1][(col1 + 1) % 5] + matrix[row2][(col2 + 1) % 5]
+                encrypted_text += matrix[row1][(col1 + 1) % 5]
+                encrypted_text += matrix[row2][(col2 + 1) % 5]
             elif col1 == col2:
-                encrypted_text += matrix[(row1 + 1) % 5][col1] + matrix[(row2 + 1) % 5][col2]
+                encrypted_text += matrix[(row1 + 1) % 5][col1]
+                encrypted_text += matrix[(row2 + 1) % 5][col2]
             else:
-                encrypted_text += matrix[row1][col2] + matrix[row2][col1]
+                encrypted_text += matrix[row1][col2]
+                encrypted_text += matrix[row2][col1]
         return encrypted_text
 
     def playfair_decrypt(self, cipher_text, matrix):
@@ -51,22 +58,22 @@ class PlayFairCipher:
             row1, col1 = self.find_letter_coords(matrix, pair[0])
             row2, col2 = self.find_letter_coords(matrix, pair[1])
             if row1 == row2:
-                decrypted_text += matrix[row1][(col1 - 1) % 5] + matrix[row2][(col2 - 1) % 5]
+                decrypted_text += matrix[row1][(col1 - 1) % 5]
+                decrypted_text += matrix[row2][(col2 - 1) % 5]
             elif col1 == col2:
-                decrypted_text += matrix[(row1 - 1) % 5][col1] + matrix[(row2 - 1) % 5][col2]
+                decrypted_text += matrix[(row1 - 1) % 5][col1]
+                decrypted_text += matrix[(row2 - 1) % 5][col2]
             else:
-                decrypted_text += matrix[row1][col2] + matrix[row2][col1]
-
-        # Loai bo ky tu 'X' neu no la ky tu cuoi cung va la ky tu duoc them vao
-        banro = ""
-        for i in range(0, len(decrypted_text) - 2, 2):
-            if decrypted_text[i] == decrypted_text[i + 2]:
-                banro += decrypted_text[i]
-            else:
-                banro += decrypted_text[i] + "" + decrypted_text[i + 1]
-        if decrypted_text[-1] == "X":
-            banro += decrypted_text[-2]
-        else:
-            banro += decrypted_text[-2]
-            banro += decrypted_text[-1]
-        return banro
+                decrypted_text += matrix[row1][col2]
+                decrypted_text += matrix[row2][col1]
+        # Loai bo cac ky tu "X" da chen vao de thu duoc ban ro
+        ban_ro = ""
+        for i in range(len(decrypted_text)):
+            if decrypted_text[i] == "X":
+                if 0 < i < len(decrypted_text) - 1 and \
+                        decrypted_text[i - 1] == decrypted_text[i + 1]:
+                    continue
+                if i == len(decrypted_text) - 1:
+                    continue
+            ban_ro += decrypted_text[i]
+        return ban_ro

@@ -1,4 +1,3 @@
-# Cau 06: Xoa mot phan tu tu Dictionary theo key da cho
 sinh_vien = {"ten": "Nguyen Van A", "tuoi": 20, "nganh": "CNTT"}
 print(f"Dictionary ban dau: {sinh_vien}")
 key = input("Nhap key can xoa: ")

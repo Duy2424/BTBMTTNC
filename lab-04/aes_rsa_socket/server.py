@@ -4,7 +4,6 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES, PKCS1_OAEP
 from Crypto.Random import get_random_bytes
 
-# Tao cap khoa RSA cua server va khoa AES dung chung
 server_key = RSA.generate(2048)
 aes_key = get_random_bytes(16)
 clients = []
@@ -28,11 +27,8 @@ def decrypt_message(key, encrypted_message):
 
 def handle_client(client_socket, client_address):
     print(f"Ket noi tu {client_address}")
-    # Gui public key cua server cho client
     client_socket.send(server_key.publickey().export_key(format='PEM'))
-    # Nhan public key cua client
     client_public_key = RSA.import_key(client_socket.recv(2048))
-    # Ma hoa khoa AES bang public key cua client va gui cho client
     cipher_rsa = PKCS1_OAEP.new(client_public_key)
     encrypted_aes_key = cipher_rsa.encrypt(aes_key)
     client_socket.send(encrypted_aes_key)
@@ -48,7 +44,6 @@ def handle_client(client_socket, client_address):
             print(f"Tin nhan tu {client_address}: {message}")
             if message == "exit":
                 break
-            # Gui tin nhan den cac client khac
             for client in clients:
                 if client != client_socket:
                     client.send(encrypt_message(aes_key, message))

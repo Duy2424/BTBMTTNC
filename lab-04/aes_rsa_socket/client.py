@@ -3,17 +3,13 @@ import threading
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES, PKCS1_OAEP
 
-# Tao cap khoa RSA cua client
 client_key = RSA.generate(2048)
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(('localhost', 12345))
 
-# Nhan public key cua server
 server_public_key = RSA.import_key(client_socket.recv(2048))
-# Gui public key cua client cho server
 client_socket.send(client_key.publickey().export_key(format='PEM'))
-# Nhan khoa AES da duoc ma hoa bang RSA va giai ma
 encrypted_aes_key = client_socket.recv(1024)
 cipher_rsa = PKCS1_OAEP.new(client_key)
 aes_key = cipher_rsa.decrypt(encrypted_aes_key)

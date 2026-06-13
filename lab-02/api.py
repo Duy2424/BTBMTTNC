@@ -7,7 +7,6 @@ from cipher.transposition import TranspositionCipher
 
 app = Flask(__name__)
 
-# CAESAR CIPHER ALGORITHM
 caesar_cipher = CaesarCipher()
 
 
@@ -29,7 +28,6 @@ def caesar_decrypt():
     return jsonify({'decrypted_message': decrypted_text})
 
 
-# VIGENERE CIPHER ALGORITHM
 vigenere_cipher = VigenereCipher()
 
 
@@ -51,7 +49,6 @@ def vigenere_decrypt():
     return jsonify({'decrypted_text': decrypted_text})
 
 
-# RAIL FENCE CIPHER ALGORITHM
 railfence_cipher = RailFenceCipher()
 
 
@@ -73,7 +70,6 @@ def railfence_decrypt():
     return jsonify({'decrypted_text': decrypted_text})
 
 
-# PLAYFAIR CIPHER ALGORITHM
 playfair_cipher = PlayFairCipher()
 
 
@@ -107,7 +103,6 @@ def playfair_decrypt():
     return jsonify({'decrypted_text': decrypted_text})
 
 
-# TRANSPOSITION CIPHER ALGORITHM
 transposition_cipher = TranspositionCipher()
 
 
@@ -129,6 +124,5 @@ def transposition_decrypt():
     return jsonify({'decrypted_text': decrypted_text})
 
 
-# main function
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

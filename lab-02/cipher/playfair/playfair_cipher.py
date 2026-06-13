@@ -3,7 +3,7 @@ class PlayFairCipher:
         pass
 
     def create_playfair_matrix(self, key):
-        key = key.replace("J", "I")  # Chuyen "J" thanh "I" trong khoa
+        key = key.replace("J", "I") 
         key = key.upper()
         key_set = set(key)
         alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ"
@@ -25,17 +25,14 @@ class PlayFairCipher:
                     return row, col
 
     def playfair_encrypt(self, plain_text, matrix):
-        # Chuyen "J" thanh "I" trong van ban dau vao
         plain_text = plain_text.replace("J", "I")
         plain_text = plain_text.upper()
         encrypted_text = ""
         for i in range(0, len(plain_text), 2):
             pair = plain_text[i:i + 2]
             if len(pair) == 1:
-                # Them "X" neu cap chi co mot ky tu
                 pair += "X"
             elif pair[0] == pair[1]:
-                # Thay ky tu thu hai bang "X" neu hai ky tu giong nhau
                 pair = pair[0] + "X"
             row1, col1 = self.find_letter_coords(matrix, pair[0])
             row2, col2 = self.find_letter_coords(matrix, pair[1])
@@ -66,7 +63,6 @@ class PlayFairCipher:
             else:
                 decrypted_text += matrix[row1][col2]
                 decrypted_text += matrix[row2][col1]
-        # Loai bo cac ky tu "X" da chen vao de thu duoc ban ro
         ban_ro = ""
         for i in range(len(decrypted_text)):
             if decrypted_text[i] == "X":

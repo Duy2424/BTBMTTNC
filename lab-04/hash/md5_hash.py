@@ -1,11 +1,8 @@
-# Cai dat ham bam MD5 khong su dung thu vien co san
 import math
 
 
-# Bang hang so K duoc tao tu ham sin
 K = [int(abs(math.sin(i + 1)) * (2 ** 32)) & 0xFFFFFFFF for i in range(64)]
 
-# So bit dich trai cho moi vong
 S = [
     7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
     5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20,
@@ -15,31 +12,25 @@ S = [
 
 
 def left_rotate(x, c):
-    # Dich trai vong tron 32 bit
     x = x & 0xFFFFFFFF
     return ((x << c) | (x >> (32 - c))) & 0xFFFFFFFF
 
 
 def md5(message):
-    # Chuyen chuoi thanh mang byte
     message = bytearray(message.encode("utf-8"))
     orig_len_bits = (8 * len(message)) & 0xFFFFFFFFFFFFFFFF
 
-    # Them bit 1 va cac bit 0 (padding)
     message.append(0x80)
     while len(message) % 64 != 56:
         message.append(0)
 
-    # Them do dai ban dau (64 bit, little-endian)
     message += orig_len_bits.to_bytes(8, byteorder="little")
 
-    # Gia tri khoi tao
     a0 = 0x67452301
     b0 = 0xEFCDAB89
     c0 = 0x98BADCFE
     d0 = 0x10325476
 
-    # Xu ly tung khoi 512 bit
     for chunk_offset in range(0, len(message), 64):
         chunk = message[chunk_offset:chunk_offset + 64]
         M = [int.from_bytes(chunk[i:i + 4], byteorder="little")
@@ -72,7 +63,6 @@ def md5(message):
         c0 = (c0 + C) & 0xFFFFFFFF
         d0 = (d0 + D) & 0xFFFFFFFF
 
-    # Ghep ket qua (little-endian)
     result = b"".join(x.to_bytes(4, byteorder="little")
                       for x in (a0, b0, c0, d0))
     return result.hex()

@@ -1,4 +1,3 @@
-# Cau 06: Tao mang hai chieu voi gia tri tai hang i, cot j la i*j
 x = int(input("Nhap so X: "))
 y = int(input("Nhap so Y: "))
 

@@ -1,4 +1,3 @@
-# Cau 09: Kiem tra so nguyen to
 def kiem_tra_nguyen_to(so):
     if so < 2:
         return False

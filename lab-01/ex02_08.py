@@ -1,4 +1,3 @@
-# Cau 08: Kiem tra cac so nhi phan 4 chu so co chia het cho 5 hay khong
 chuoi_nhap = input("Nhap cac so nhi phan 4 chu so, cach nhau boi dau phay: ")
 danh_sach = chuoi_nhap.split(",")
 

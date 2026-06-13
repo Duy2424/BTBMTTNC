@@ -6,7 +6,6 @@ def kiem_tra_so_nguyen_to(n):
             return False
     return True
 
-# Kiểm tra số nguyên tố và in kết quả
 number = int(input("nhap so can kiem tra "))
 if kiem_tra_so_nguyen_to(number):
     print(number, "la so nguyen to")

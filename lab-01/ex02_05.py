@@ -1,6 +1,3 @@
-# Cau 05: Tinh tien luong cua nhan vien
-# So gio tieu chuan moi tuan la 44 gio
-# Moi gio lam them duoc tra 150% luong theo gio tieu chuan
 so_gio = float(input("Nhap so gio lam viec trong tuan: "))
 luong_gio = float(input("Nhap muc luong theo gio: "))
 

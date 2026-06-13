@@ -1,4 +1,3 @@
-# Cau 07: Chuyen cac dong nhap vao thanh chu hoa
 dong_nhap = []
 print("Nhap cac dong (nhap dong rong de ket thuc):")
 while True:

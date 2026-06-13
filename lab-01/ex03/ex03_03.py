@@ -1,4 +1,3 @@
-# Cau 03: Tao Tuple tu mot List nhap vao tu ban phim
 chuoi_nhap = input("Nhap cac phan tu cua List, cach nhau boi dau phay: ")
 danh_sach = chuoi_nhap.split(",")
 tup = tuple(danh_sach)

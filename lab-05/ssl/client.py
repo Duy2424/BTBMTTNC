@@ -1,34 +1,47 @@
-# Client SSL: ket noi va gui du lieu len server qua SSL
 import socket
 import ssl
+import threading
+import sys
 
-HOST = "localhost"
-PORT = 8443
+server_address = ('localhost', 12345)
 
+def receive_data(ssl_socket):
+    try:
+        while True:
+            data = ssl_socket.recv(1024)
+            if not data:
+                break
+            print("\nNhận:", data.decode('utf-8'))
+            print("nhap tin nhan: ", end="", flush=True)
+    except:
+        pass
+    finally:
+        ssl_socket.close()
+        print("\nket noi da dong.")
 
 def main():
-    # Tao SSL context cho client
-    # Vi dung chung chi tu ky (self-signed) nen tat kiem tra chung chi
-    context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-    context.check_hostname = False
-    context.verify_mode = ssl.CERT_NONE
-
-    # Tao socket va boc SSL
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    ssl_socket = context.wrap_socket(client_socket, server_hostname=HOST)
-    ssl_socket.connect((HOST, PORT))
-    print(f"Da ket noi den server SSL {HOST}:{PORT}")
-
-    # Nhap va gui tin nhan
-    message = input("Nhap tin nhan gui den server: ")
-    ssl_socket.send(message.encode("utf-8"))
-
-    # Nhan phan hoi tu server
-    response = ssl_socket.recv(1024).decode("utf-8")
-    print("Phan hoi tu server:", response)
-
-    ssl_socket.close()
-
+    
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    context.verify_mode = ssl.CERT_NONE 
+    context.check_hostname = False
+    
+    ssl_socket = context.wrap_socket(client_socket, server_hostname='localhost')
+    ssl_socket.connect(server_address)
+    
+    receive_thread = threading.Thread(target=receive_data, args=(ssl_socket,))
+    receive_thread.start()
+    
+    try:
+        while True:
+            message = input("nhap tin nhan: ")
+            if message.strip() == "":
+                continue
+            ssl_socket.send(message.encode('utf-8'))
+    except (KeyboardInterrupt, SystemExit):
+        print("\ndang thoat")
+    finally:
+        ssl_socket.close()
 
 if __name__ == "__main__":
     main()

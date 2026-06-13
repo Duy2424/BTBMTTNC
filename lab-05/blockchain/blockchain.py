@@ -1,69 +1,67 @@
-# Dinh nghia chuoi khoi (Blockchain)
-import hashlib
 from block import Block
-
+import hashlib
+import time
 
 class Blockchain:
     def __init__(self):
         self.chain = []
-        self.pending_transactions = []
-        # Tao khoi dau tien (genesis block)
-        self.create_genesis_block()
-
-    def create_genesis_block(self):
-        # Khoi genesis: index = 1, khong co giao dich, previous_hash = '0', proof = 1
-        genesis_block = Block(1, [], "0", 1)
-        self.chain.append(genesis_block)
-
-    def get_last_block(self):
-        return self.chain[-1]
-
-    def add_transaction(self, sender, receiver, amount):
-        # Them mot giao dich vao danh sach cho xu ly
-        self.pending_transactions.append({
-            "sender": sender,
-            "receiver": receiver,
-            "amount": amount,
-        })
-
-    def proof_of_work(self, last_proof):
-        # Tim proof sao cho valid_proof tra ve True
-        proof = 0
-        while not self.valid_proof(last_proof, proof):
-            proof += 1
-        return proof
-
-    def valid_proof(self, last_proof, proof):
-        # Kiem tra proof: hash cua (last_proof + proof) bat dau bang '00'
-        guess = f"{last_proof}{proof}".encode()
-        guess_hash = hashlib.sha256(guess).hexdigest()
-        return guess_hash[:2] == "00"
-
-    def add_block(self, proof):
-        # Tao khoi moi tu cac giao dich dang cho va them vao chuoi
-        last_block = self.get_last_block()
-        new_block = Block(
-            index=last_block.index + 1,
-            transactions=self.pending_transactions,
-            previous_hash=last_block.hash,
-            proof=proof,
+        self.current_transactions = []
+        self.create_block(proof=1, previous_hash='0')
+        
+    def create_block(self, proof, previous_hash):
+        block = Block(
+            index=len(self.chain) + 1,
+            previous_hash=previous_hash,
+            timestamp=time.time(),
+            transactions=self.current_transactions,
+            proof=proof
         )
-        self.pending_transactions = []
-        self.chain.append(new_block)
-        return new_block
-
-    def is_chain_valid(self):
-        # Kiem tra tinh hop le cua toan bo chuoi
-        for i in range(1, len(self.chain)):
-            current = self.chain[i]
-            previous = self.chain[i - 1]
-
-            # Kiem tra hash cua khoi hien tai
-            if current.hash != current.compute_hash():
+        self.current_transactions = []
+        self.chain.append(block)
+        return block
+        
+    def get_previous_block(self):
+        return self.chain[-1]
+        
+    def proof_of_work(self, previous_proof):
+        new_proof = 1
+        check_proof = False
+        
+        while not check_proof:
+            hash_operation = hashlib.sha256(str(new_proof**2 - previous_proof**2).encode()).hexdigest()
+            if hash_operation[:4] == '0000':
+                check_proof = True
+            else:
+                new_proof += 1
+                
+        return new_proof
+        
+    def add_transaction(self, sender, receiver, amount):
+        self.current_transactions.append({
+            'sender': sender,
+            'receiver': receiver,
+            'amount': amount
+        })
+        return self.get_previous_block().index + 1
+        
+    def is_chain_valid(self, chain):
+        previous_block = chain[0]
+        block_index = 1
+        
+        while block_index < len(chain):
+            block = chain[block_index]
+            
+            if block.previous_hash != previous_block.hash:
                 return False
-
-            # Kiem tra lien ket previous_hash
-            if current.previous_hash != previous.hash:
+                
+            previous_proof = previous_block.proof
+            proof = block.proof
+            hash_operation = hashlib.sha256(str(proof**2 - previous_proof**2).encode()).hexdigest()
+            
+            if hash_operation[:4] != '0000':
                 return False
-
+                
+            previous_block = block
+            block_index += 1
+            
         return True

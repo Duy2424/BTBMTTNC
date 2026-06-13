@@ -1,37 +1,29 @@
-# Chuong trinh kiem tra blockchain
 from blockchain import Blockchain
 
+my_blockchain = Blockchain()
 
-def print_block(block):
-    print(f"Index: {block.index}")
-    print(f"Timestamp: {block.timestamp}")
-    print(f"Transactions: {block.transactions}")
-    print(f"Proof: {block.proof}")
-    print(f"Previous Hash: {block.previous_hash}")
-    print(f"Hash: {block.hash}")
-    print("-" * 50)
+my_blockchain.add_transaction('Alice', 'Bob', 10)
+my_blockchain.add_transaction('Bob', 'Charlie', 5)
+my_blockchain.add_transaction('Charlie', 'Alice', 3)
 
+previous_block = my_blockchain.get_previous_block()
+previous_proof = previous_block.proof
+new_proof = my_blockchain.proof_of_work(previous_proof)
+previous_hash = previous_block.hash
 
-if __name__ == "__main__":
-    # Tao blockchain moi
-    blockchain = Blockchain()
+my_blockchain.add_transaction('Genesis', 'Miner', 1)
 
-    # Them cac giao dich
-    blockchain.add_transaction("Alice", "Bob", 10)
-    blockchain.add_transaction("Bob", "Charlie", 5)
-    blockchain.add_transaction("Charlie", "Alice", 3)
-    blockchain.add_transaction("Genesis", "Miner", 1)
+new_block = my_blockchain.create_block(new_proof, previous_hash)
 
-    # Dao khoi moi (proof of work)
-    last_proof = blockchain.get_last_block().proof
-    proof = blockchain.proof_of_work(last_proof)
-    blockchain.add_block(proof)
+print("--- DANH SACH CAC KHOI TRONG BLOCKCHAIN ---")
+for block in my_blockchain.chain:
+    print(f"Block #{block.index}")
+    print("Timestamp:    ", block.timestamp)
+    print("Transactions: ", block.transactions)
+    print("Proof:        ", block.proof)
+    print("Previous Hash:", block.previous_hash)
+    print("Hash:         ", block.hash)
+    print("-" * 40)
 
-    # In thong tin cac khoi
-    print("Block #1:")
-    print_block(blockchain.chain[0])
-    print("Block #2:")
-    print_block(blockchain.chain[1])
-
-    # Kiem tra tinh hop le cua chuoi
-    print("Is Blockchain Valid:", blockchain.is_chain_valid())
+is_valid = my_blockchain.is_chain_valid(my_blockchain.chain)
+print("Is Blockchain Valid:", is_valid)

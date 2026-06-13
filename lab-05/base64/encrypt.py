@@ -1,14 +1,15 @@
-# Ma hoa thong tin su dung Base64
 import base64
 
-
-def base64_encode(message):
-    # Chuyen chuoi thanh byte roi ma hoa Base64
-    message_bytes = message.encode("utf-8")
-    encoded_bytes = base64.b64encode(message_bytes)
-    return encoded_bytes.decode("utf-8")
-
+def main():
+    input_string = input("nhap thong tin can ma hoa: ")
+    
+    encoded_bytes = base64.b64encode(input_string.encode("utf-8"))
+    encoded_string = encoded_bytes.decode("utf-8")
+    
+    with open("data.txt", "w") as file:
+        file.write(encoded_string)
+        
+    print("da ma hoa va ghi vao data.txt")
 
 if __name__ == "__main__":
-    text = input("Nhap chuoi can ma hoa: ")
-    print("Chuoi sau khi ma hoa Base64:", base64_encode(text))
+    main()

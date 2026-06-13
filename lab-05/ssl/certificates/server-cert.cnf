@@ -1,6 +1,13 @@
 [req]
-distinguished_name = req_distinguished_name
+default_bits = 2048
 prompt = no
+default_md = sha256
+distinguished_name = dn
 
-[req_distinguished_name]
-CN = localhost
+[dn]
+C=US
+ST=State
+L=Location
+O=Organization
+OU=Organizational Unit
+CN=localhost
